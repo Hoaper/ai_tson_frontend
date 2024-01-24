@@ -9,10 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "clsx": "^2.1.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-lottie": "^1.2.4"
+    "react-lottie": "^1.2.4",
+    "tailwind-merge": "^2.2.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
