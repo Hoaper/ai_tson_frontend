@@ -9,12 +9,21 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@types/react-speech-recognition": "^3.9.5",
+    "ai": "^2.2.31",
     "clsx": "^2.1.0",
     "next": "14.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-lottie": "^1.2.4",
-    "tailwind-merge": "^2.2.1"
+    "react-speech-recognition": "^3.10.0",
+    "react-textarea-autosize": "^8.5.3",
+    "tailwind-merge": "^2.2.1",
+    "remark-gfm": "^3.0.1",
+    "remark-math": "^5.1.1",
+    "react-markdown": "^8.0.7",
+    "react-intersection-observer": "^9.4.4",
+    "react-hot-toast": "^2.4.1"
   },
   "devDependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
