@@ -37,9 +37,9 @@ export function ChatPanel({id, isLoading, stop, append, reload, input, setInput,
     <div className="text-md fixed inset-x-0 bottom-0 from-muted/10 from-10% to-muted/30 to-50%">
       <ButtonScrollToBottom />
       <div className="container sm:px-4">
-        {/* before h-28 if link */}
-        <div className="space-y-4 px-4 py-2 max-md:px-2">
-          {/* <Dictaphone /> */}
+     
+        <div className="space-y-4 px-2 py-2 max-md:px-2">
+   
           <PromptForm
             onSubmit={async (value) => {
               await append({

@@ -1,7 +1,9 @@
+import 'regenerator-runtime/runtime'
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from '@/libs/utils';
 import { fontHelvetica } from '@/libs/fonts';
+import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(fontHelvetica.variable, 'font-helvetica')}>
-  
+      <Toaster />
         {children}
         
         </body>
