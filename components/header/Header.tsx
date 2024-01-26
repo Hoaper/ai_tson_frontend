@@ -6,7 +6,7 @@ import { LanguageToggle } from './LanguageToggle';
 const Header = () => {
 
   return (
-    <header className="pt-10 pb-7 border-b border-[rgba(55,55,55,0.12)]">
+    <header className="pt-10 mx-16 pb-7 border-b border-[rgba(55,55,55,0.12)]">
       <div className="flex w-full justify-between items-center">
         <EgovLogo />
 

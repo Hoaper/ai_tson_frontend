@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@langchain/community": "^0.0.20",
+    "@langchain/openai": "^0.0.12",
     "@types/react-speech-recognition": "^3.9.5",
     "ai": "^2.2.31",
+    "chromadb": "^1.8.1",
     "clsx": "^2.1.0",
     "nanoid": "^5.0.4",
     "next": "14.1.0",

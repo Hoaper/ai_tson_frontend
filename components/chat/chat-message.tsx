@@ -9,6 +9,13 @@ import { MemoizedReactMarkdown } from '@/components/chat/markdown';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
+function extractUrl(text: string) {
+  const urlRegex = /\((https?:\/\/[^\s]+)\)/;
+  const match = text.match(urlRegex);
+  if (match && match[1]) return match[1];
+  return '';
+}
+
 export interface ChatMessageProps {
   message: Message;
 }
@@ -16,14 +23,14 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
   return (
     <div
       className={cn(
-        'group relative isolate mb-4 flex w-full flex-col items-start px-8 max-md:px-0',
+        'group  relative isolate mb-4 flex w-full flex-col items-start px-8 max-md:px-0',
         message.role === 'user' ? 'items-end' : 'items-start'
       )}
       {...props}
     >
       <div
         className={cn(
-          'flex ',
+          'flex xl:max-w-[50%] w-full',
           message.role === 'user'
             ? 'flex-row-reverse gap-5 max-md:gap-0'
             : 'flex-row gap-8 max-md:gap-0'
@@ -76,6 +83,14 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
             {message.content}
           </MemoizedReactMarkdown>
           {/*<ChatMessageActions message={message} />*/}
+          {
+            extractUrl(message.content) && (
+                  <div className={"bg-[#00b3ba] w-fit px-2 py-1 rounded-md text-white"}>
+                    <a target={"_blank"} href={extractUrl(message.content)}>Получить</a>
+                  </div>
+              )
+
+          }
         </div>
       </div>
     </div>

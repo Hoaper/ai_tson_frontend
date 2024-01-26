@@ -1,7 +1,6 @@
 import {OpenAIStream, StreamingTextResponse} from 'ai';
 import {Configuration, OpenAIApi} from 'openai-edge';
 import {nanoid} from '@/libs/utils';
-
 interface ContextResponse {
     page_content: string;
     metadata: {
@@ -21,23 +20,26 @@ const openai = new OpenAIApi(configuration);
 export async function POST(req: Request) {
     const json = await req.json();
     let {messages, previewToken} = json;
-    // const session = await auth();
     const question = messages[messages.length - 1].content;
-    // if (session == null) {
-    //   return new Response('Unauthorized', {
-    //     status: 401
-    //   })
-    // }
     const templateFooter = `Question: ${question}`;
-    // prompt
+
+    const results = await fetch(`https://ailawyer.nimbl.tv/get_context_sources?message=${question}`)
+
+    const resp = await results.json()
     const templateWithContext = `
-        You are an male assistant at a human services center. Behave with dignity, because this is a government organization. Your role is to help people decide which service they want and open the link in our format.
-Don't answer provocative questions, be punctual!
-Example:
-service: http://example.com
-Use the context below to counsel people:
-Отвечай на том языке, на котором тебе задали вопрос!
-    `;
+Вы - ассистент в центре по оказанию услуг населению. Ведите себя достойно, ведь это государственная организация. Ваша роль - помочь людям определиться, какая услуга им нужна, и открыть ссылку в нашем формате.
+Не отвечайте на провокационные вопросы, будьте пунктуальны! Отвечайте кратко и по делу. Не отвечайте на вопросы, которые не имеют отношения к вашей роли.
+Пример:
+Твой ответ
+http://egov.kz/service/99_rez_0
+Конец примера.
+
+Используйте приведенный ниже контекст, чтобы консультировать людей:
+${resp[0].page_content}
+Источник: ${resp[0].metadata.source}
+В конце ответа на вопрос добавьте ссылки на источники, которые цитируются в контексте. Дайте название ссылке в соответствии с контекстом. Если в контексте нет ссылок, приведите только ответ и не включайте ссылки в конце. Если в контексте нет ссылок, НЕ придумывайте их ни при каких обстоятельствах.
+Если контекст не имеет отношения к вопросу, не давайте никаких ссылок!!!
+`;
 
     const template = templateWithContext + templateFooter;
     messages[messages.length - 1].content = template;
