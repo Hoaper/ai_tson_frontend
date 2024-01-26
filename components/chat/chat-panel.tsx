@@ -1,7 +1,6 @@
 import {type UseChatHelpers} from 'ai/react';
 
 import {ButtonScrollToBottom} from './button-scroll-to-bottom';
-// import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition'
 import {useEffect, useState} from 'react';
 import {PromptForm} from './prompt-form';
 
@@ -19,11 +18,6 @@ export function ChatPanel({id, isLoading, stop, append, reload, input, setInput,
 
       setLinkHandler(lastAssistantMessage.content);
 
-      // Text-to-speech part
-      // const utterance = new SpeechSynthesisUtterance(lastAssistantMessage.content);
-      // utterance.lang = 'ru-RU'; // Set the language code for Russian
-
-      // speechSynthesis.speak(utterance);
     }
   }, [isLoading, messages]);
 
@@ -35,7 +29,7 @@ export function ChatPanel({id, isLoading, stop, append, reload, input, setInput,
   };
   return (
     <div className="text-md fixed inset-x-0 bottom-0 from-muted/10 from-10% to-muted/30 to-50%">
-      <ButtonScrollToBottom />
+      {/*<ButtonScrollToBottom />*/}
       <div className="container sm:px-4">
      
         <div className="space-y-4 px-2 py-2 max-md:px-2">

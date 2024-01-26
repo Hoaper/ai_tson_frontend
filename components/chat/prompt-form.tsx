@@ -82,7 +82,9 @@ export function PromptForm({onSubmit, input, setInput, isLoading}: PromptProps) 
         <Textarea
           ref={inputRef}
           tabIndex={0}
-          onKeyDown={onKeyDown}
+          onKeyDown={(e) => {
+              !isLoading && onKeyDown(e)
+          }}
           rows={1}
           value={input}
           onChange={(e) => setInput(e.target.value)}
