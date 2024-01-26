@@ -7,6 +7,7 @@ import {cn} from '@/libs/utils';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import {MouseEventHandler, useState} from 'react';
 import { ButtonSend } from './ui/ButtonSend';
+import { RecordContainer } from '../RecordContainer';
 
 export interface PromptProps extends Pick<UseChatHelpers, 'input' | 'setInput'> {
   onSubmit: (value: string) => Promise<void>;
@@ -78,6 +79,8 @@ export function PromptForm({onSubmit, input, setInput, isLoading}: PromptProps) 
             </div>
           </div>
         )} */}
+
+        <RecordContainer isChatMicro={true}/>
 
         <Textarea
           ref={inputRef}

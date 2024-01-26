@@ -23,13 +23,23 @@ const MIN_DECIBELS = -80
 /** 2s */
 const SILENCE_DELAY = 2
 
-export const useVisualizeBars = () => {
+interface Props {
+  squareSize?: number
+}
+
+export const useAudioRecords = ({squareSize = 150}: Props) => {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const audioEl = useRef<HTMLAudioElement>(null);
   const [recorderState, setRecorderState] = useState<MediaRecorder | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [audioContext, setAudioContext] = useState<AudioContext>();
 
+  const SQUARE = {
+    hue: 182,
+    scale: 1,
+    size: squareSize || 150,
+    opacity: 1
+  }
   let silenceStart = performance.now()
   let report: gsap.TickerCallback
 
@@ -115,42 +125,7 @@ export const useVisualizeBars = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [recorderState]);
 
-  const ANALYSE = (stream: MediaStream) => {
-    const audioCtx = new AudioContext();
-    const ANALYSER = audioCtx.createAnalyser();
-    const SOURCE = audioCtx.createMediaStreamSource(stream);
-    const DATA_ARR = new Uint8Array(ANALYSER.frequencyBinCount);
-    SOURCE.connect(ANALYSER);
-    ANALYSER.minDecibels = MIN_DECIBELS;
-
-    report = (time) => {
-      if(recorderState?.state === 'recording'){
-        ANALYSER.getByteFrequencyData(DATA_ARR);
-        const VOLUME = Math.max(...DATA_ARR) / 255; // from 0 to 1
-        gsap.to(SQUARE, {
-          scale: gsap.utils.mapRange(0,1,1,2)(VOLUME),
-          hue: gsap.utils.mapRange(0, 1, 182, 0)(VOLUME),
-          opacity:  gsap.utils.mapRange(0,1,1,0.1)(VOLUME),
-          duration: CONFIG.duration,
-        });
-
-        if(VOLUME) {  // если есть данные, превышающие заданный предел децебела
-          silenceStart = time
-          console.log('@SilenceStart', time);
-        }
-
-        if(time - silenceStart > SILENCE_DELAY ) {
-          // record stop
-          recorderState.stop();
-        }
-      }
-      drawSquare() // рендер квадрата
-    };
-    gsap.ticker.add(report);
-
-    setAudioContext(audioCtx);
-  }
-
+  
   const RESET_All = () => {
     setRecorderState(null);
     setIsRecording(false);
@@ -170,7 +145,43 @@ export const useVisualizeBars = () => {
     });
   };
 
-  // PART CANVAS
+/******************** ANALYSE ***********************/
+  const ANALYSE = (stream: MediaStream) => {
+    const audioCtx = new AudioContext();
+    const ANALYSER = audioCtx.createAnalyser();
+    const SOURCE = audioCtx.createMediaStreamSource(stream);
+    const DATA_ARR = new Uint8Array(ANALYSER.frequencyBinCount);
+    SOURCE.connect(ANALYSER);
+    ANALYSER.minDecibels = MIN_DECIBELS;
+
+    report = (time) => {
+      if(recorderState?.state === 'recording'){
+        ANALYSER.getByteFrequencyData(DATA_ARR);
+        const VOLUME = Math.max(...DATA_ARR) / 255; // from 0 to 1
+        
+        gsap.to(SQUARE, {
+          scale: gsap.utils.mapRange(0,1,1,2)(VOLUME),
+          hue: gsap.utils.mapRange(0, 1, 182, 0)(VOLUME),
+          opacity:  gsap.utils.mapRange(0,1,1,0.1)(VOLUME),
+          duration: CONFIG.duration,
+        });
+
+        if(VOLUME) {  // если есть данные, превышающие заданный предел децебела
+          silenceStart = time
+        }
+
+        if(time - silenceStart > SILENCE_DELAY ) {
+          recorderState.stop();  // record stop
+        }
+      }
+      drawSquare() // рендер квадрата
+    };
+    gsap.ticker.add(report);
+
+    setAudioContext(audioCtx);
+  }
+
+  /***********************  PART CANVAS ***********************************************/
   const drawSquare  = () => {
     if(!canvasEl.current) return
     const canvas = canvasEl.current
