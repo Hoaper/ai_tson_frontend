@@ -1,6 +1,7 @@
 import {cn} from '@/libs/utils';
 import {useEffect, useRef, useState} from 'react';
 import {Spinner} from './icons/Spinner.svg';
+import toast from 'react-hot-toast';
 
 export const RecordContainer = () => {
   const AUDIO = useRef<HTMLAudioElement>(null);
@@ -20,13 +21,19 @@ export const RecordContainer = () => {
         },
       });
 
-      console.log('@response', response);
+      if(response.ok) {
+        const text: {text: string} = await response.json()
+        console.log('@response', text.text);
+        toast.success(text.text, {duration: 5000})
+      }
+
     } catch (error) {
+      toast.error(`This didn't work. ${error}`)
       console.log('@sendAudio error', error);
     }
   };
 
-  // let recorder: MediaRecorder | null = null;
+
   const handleRecord = () => {
     const startRecording = async () => {
       if (!recorderState) {
@@ -74,12 +81,15 @@ export const RecordContainer = () => {
     }
 
     return () => {
-      if (recorder) recorder.stream.getAudioTracks().forEach((track) => track.stop());
+      if (recorder) {
+        recorder.stream.getAudioTracks().forEach((track) => track.stop());
+        console.log('@Снести все записи MediaStream');
+      }
     };
   }, [recorderState]);
 
   return (
-    <div className="flex flex-col items-center grow h-full">
+    <div className={cn("flex flex-col items-center transition-all grow h-full duration-700  relative", isRecording ? ' translate-y-[10%]': 'translate-y-1/2 ')}>
       <button
         onClick={() => handleRecord()}
         className={cn(
@@ -106,7 +116,7 @@ export const RecordContainer = () => {
         )}
       </button>
       <audio ref={AUDIO} controls className="fixed left-2 top-2" />
-      <p className="text-[rgba(55,55,55,0.50)] font-helvetica text-2xl max-w-[400px] text-center mt-9">
+      <p className={cn("text-[rgba(55,55,55,0.50)] font-helvetica text-2xl max-w-[400px] text-center mt-9 transition-opacity", isRecording && 'opacity-0') }>
         Нажмите на микрофон и скажите какая услуга Вас интересует
       </p>
     </div>
