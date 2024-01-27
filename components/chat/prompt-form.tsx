@@ -7,6 +7,7 @@ import {cn} from '@/libs/utils';
 import SpeechRecognition, {useSpeechRecognition} from 'react-speech-recognition';
 import {MouseEventHandler, useState} from 'react';
 import { ButtonSend } from './ui/ButtonSend';
+import { RecordContainer } from '../RecordContainer';
 
 export interface PromptProps extends Pick<UseChatHelpers, 'input' | 'setInput'> {
   onSubmit: (value: string) => Promise<void>;
@@ -79,19 +80,21 @@ export function PromptForm({onSubmit, input, setInput, isLoading}: PromptProps) 
           </div>
         )} */}
 
-        <Textarea
-          ref={inputRef}
-          tabIndex={0}
-          onKeyDown={(e) => {
-              !isLoading && onKeyDown(e)
-          }}
-          rows={1}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Напишите вопрос..."
-          spellCheck={false}
-          className="min-h-[60px] w-full resize-none bg-transparent px-2 py-[1.3rem] font-days focus-within:outline-none max-md:py-2  max-md:text-base sm:text-lg"
-        />
+        <RecordContainer setInput={setInput} isChatMicro={true}/>
+
+          <Textarea
+              ref={inputRef}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                  !isLoading && onKeyDown(e)
+              }}
+              rows={1}
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Напишите вопрос..."
+              spellCheck={false}
+              className="min-h-[60px] w-full resize-none bg-transparent px-2 py-[1.3rem] font-days focus-within:outline-none max-md:py-2  max-md:text-base sm:text-lg"
+          />
       </div>
       <div className="relative">
         <ButtonSend type="submit" disabled={isLoading || input === ''} />

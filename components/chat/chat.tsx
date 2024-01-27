@@ -35,7 +35,7 @@ export function Chat({ initialMessages, className}: ChatProps) {
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (
-            <RecordContainer setInput={setInput} />
+            <RecordContainer setInput={setInput} isChatMicro={false} />
         )}
       </div>
       <ChatPanel

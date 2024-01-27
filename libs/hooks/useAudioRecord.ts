@@ -25,9 +25,10 @@ const SILENCE_DELAY = 2
 
 interface Props {
   squareSize?: number
+  setInput(value: string): void
 }
 
-export const useAudioRecords = ({squareSize = 150}: Props) => {
+export const useAudioRecords = ({squareSize = 150, setInput}: Props) => {
   const canvasEl = useRef<HTMLCanvasElement>(null);
   const audioEl = useRef<HTMLAudioElement>(null);
   const [recorderState, setRecorderState] = useState<MediaRecorder | null>(null);
@@ -58,7 +59,8 @@ export const useAudioRecords = ({squareSize = 150}: Props) => {
       if(response.ok) {
         const text: {text: string} = await response.json()
         console.log('@response', text.text);
-        toast.success(text.text, {duration: 5000})
+        // toast.success(text.text, {duration: 5000})
+        setInput(text.text)
       }
     } catch (error) {
       toast.error(`This didn't work. ${error}`)
