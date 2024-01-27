@@ -2,7 +2,7 @@ import {cn} from '@/libs/utils';
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 export const ButtonSend: React.FC<ButtonProps> = ({className, ...props}) => {
   return (
-    <button className={cn('w-12 h-12 relative rounded-[10px] bg-[#00B3BA] disabled:opacity-30', className)} {...props}>
+    <button className={cn('@lg/main:w-12 @lg/main:h-12 h-10 w-10 relative rounded-[10px] bg-[#00B3BA] disabled:opacity-30', className)} {...props}>
       <svg
         width="22"
         height="18"

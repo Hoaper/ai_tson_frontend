@@ -61,10 +61,10 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
         {/*</div>*/}
         <div
           className={cn(
-            'relative text-black items-center space-y-2 self-start rounded-xl bg-gradient-to-r px-8 py-4 after:absolute after:bottom-0 after:translate-y-[80%]  max-md:px-4  max-md:py-2',
+            'relative text-black items-center space-y-2 self-start rounded-xl bg-gradient-to-r @lg/main:px-8 @lg/main:py-4 after:absolute after:bottom-0 after:translate-y-[80%]  px-4  py-2',
             message.role === 'user'
-              ? 'mb-[50px] rounded-br-none bg-[#d3d3d3]'
-              : 'mb-[100px] rounded-bl-none bg-[#d3d3d3]'
+              ? '@lg/main:mb-[50px] mb-4 rounded-br-none bg-[#d3d3d3]'
+              : '@lg/main:mb-[100px] mb-6 rounded-bl-none bg-[#d3d3d3]'
           )}
         >
           <MemoizedReactMarkdown
@@ -73,7 +73,7 @@ export function ChatMessage({ message, ...props }: ChatMessageProps) {
             components={{
               p({ children }) {
                 return (
-                  <p className="mb-2 !font-days text-xl !leading-tight !text-black last:mb-0 max-md:text-lg">
+                  <p className="@lg/main:mb-2 !font-days @lg/main:text-xl !leading-tight !text-black last:mb-0 text-sm">
                     {children}
                   </p>
                 );

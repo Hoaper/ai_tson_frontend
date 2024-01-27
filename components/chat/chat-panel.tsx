@@ -3,13 +3,15 @@ import {type UseChatHelpers} from 'ai/react';
 import {ButtonScrollToBottom} from './button-scroll-to-bottom';
 import {useEffect, useState} from 'react';
 import {PromptForm} from './prompt-form';
+import { cn } from '@/libs/utils';
 
 export interface ChatPanelProps
   extends Pick<UseChatHelpers, 'append' | 'isLoading' | 'reload' | 'messages' | 'stop' | 'input' | 'setInput'> {
   id?: string;
+  isModal: boolean
 }
 
-export function ChatPanel({id, isLoading, stop, append, reload, input, setInput, messages}: ChatPanelProps) {
+export function ChatPanel({id, isLoading, stop, append, reload, input, setInput, messages, isModal}: ChatPanelProps) {
   useEffect(() => {
     if (!isLoading && messages?.length > 0) {
       console.log('Finished!!!');
@@ -28,7 +30,7 @@ export function ChatPanel({id, isLoading, stop, append, reload, input, setInput,
     if (match && match[1] && match[1].includes('services')) setLink(match[1]);
   };
   return (
-    <div className="text-md fixed inset-x-0 bottom-0 from-muted/10 from-10% to-muted/30 to-50%">
+    <div className={cn("text-md  from-muted/10 from-10% to-muted/30 to-50%", isModal ? "absolute inset-x-0 bottom-0" : "fixed inset-x-0 bottom-0") }>
       {/*<ButtonScrollToBottom />*/}
       <div className="container sm:px-4">
      

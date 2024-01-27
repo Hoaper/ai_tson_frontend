@@ -2,20 +2,26 @@ import {cn} from '@/libs/utils';
 import {Spinner} from './icons/Spinner.svg';
 import {useAudioRecords} from '@/libs/hooks/useAudioRecord';
 
-export const RecordContainer = ({isChatMicro, setInput}: {isChatMicro: boolean, setInput(input: string): void}) => {
+interface Props {
+  isChatMicro: boolean, 
+  setInput(input: string): void,
+  squareSize?: number
+}
+
+export const RecordContainer = ({isChatMicro, setInput, squareSize}: Props) => {
   const {handleRecord, isRecording, audioEl, canvasEl} = useAudioRecords({
-    squareSize: 40,
+    squareSize,
     setInput
   });
 
   return (
     <>
       {isChatMicro ? (
-        <div className='absolute right-2 top-1/2 -translate-y-1/2 w-[50px] h-[50px] cursor-pointer rounded-full p-0 max-md:ml-2 '><button
+        <div className='absolute @lg/main:right-2 right-1 top-1/2 -translate-y-1/2 @lg/main:w-[50px] @lg/main:h-[50px] h-10 w-10 cursor-pointer rounded-full p-0 max-md:ml-2 '><button
         type={"button"}
             onClick={() => handleRecord()}
         className={cn(
-          ' before:rounded-full before:bg-[#00B3BA] relative transition-all before:duration-500 w-[50px] h-[50px] before:absolute before:w-[50px] before:h-[50px] before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:left-1/2 before:transition-all before:ease-in-out',
+          ' before:rounded-full before:bg-[#00B3BA] relative transition-all before:duration-500 @lg/main:w-[50px] @lg/main:h-[50px] h-10 w-10 before:absolute before:w-[50px] before:h-[50px] before:top-1/2 before:-translate-x-1/2 before:-translate-y-1/2 before:left-1/2 before:transition-all before:ease-in-out',
           isRecording ? 'before:scale-0' : 'before:scale-0'
         )}>
         <svg

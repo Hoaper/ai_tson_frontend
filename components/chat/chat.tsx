@@ -13,9 +13,10 @@ const IS_PREVIEW = process.env.VERCEL_ENV === 'preview';
 export interface ChatProps extends React.ComponentProps<'div'> {
   initialMessages?: Message[];
   id?: string;
+  isModal: boolean
 }
 
-export function Chat({ initialMessages, className}: ChatProps) {
+export function Chat({ initialMessages, className, isModal}: ChatProps) {
   const [previewToken, setPreviewToken] = useLocalStorage<string | null>('ai-token', null);
   const {messages, append, reload, stop, isLoading, input, setInput} = useChat({
     initialMessages,
@@ -29,9 +30,9 @@ export function Chat({ initialMessages, className}: ChatProps) {
     <div className={'w-full'}>
       <div className={cn('pb-[200px] pt-4 md:pt-10', className)}>
 
-        {messages.length || isLoading ? (
+        {messages.length || isLoading || isModal ? (
           <>
-            <ChatList messages={messages} />
+            <ChatList isModal={isModal} messages={messages} />
             <ChatScrollAnchor trackVisibility={isLoading} />
           </>
         ) : (
@@ -46,6 +47,7 @@ export function Chat({ initialMessages, className}: ChatProps) {
         messages={messages}
         input={input}
         setInput={setInput}
+        isModal={isModal}
       />
     </div>
   );

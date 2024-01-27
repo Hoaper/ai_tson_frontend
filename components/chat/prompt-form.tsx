@@ -55,7 +55,7 @@ export function PromptForm({onSubmit, input, setInput, isLoading}: PromptProps) 
       }}
       className="flex flex-row items-center gap-5"
       ref={formRef}>
-      <div className="relative z-20 flex max-h-60 w-full grow flex-col overflow-hidden rounded-2xl ring-[rgba(55,55,55,0.7)] px-2 ring-1 backdrop-blur-sm sm:rounded-2xl sm:border sm:px-4">
+      <div className="relative z-20 flex @lg/main:max-h-60 max-h-32 w-full grow flex-col overflow-hidden @lg/main:rounded-2xl ring-[rgba(55,55,55,0.7)] px-2 ring-1 backdrop-blur-sm rounded-md sm:border sm:px-4">
         {/* {browserSupportsSpeechRecognition && (
           <div>
             <div
@@ -80,7 +80,7 @@ export function PromptForm({onSubmit, input, setInput, isLoading}: PromptProps) 
           </div>
         )} */}
 
-        <RecordContainer setInput={setInput} isChatMicro={true}/>
+        <RecordContainer setInput={setInput} isChatMicro={true} squareSize={40}/>
 
           <Textarea
               ref={inputRef}
@@ -93,7 +93,7 @@ export function PromptForm({onSubmit, input, setInput, isLoading}: PromptProps) 
               onChange={(e) => setInput(e.target.value)}
               placeholder="Напишите вопрос..."
               spellCheck={false}
-              className="min-h-[60px] w-full resize-none bg-transparent px-2 py-[1.3rem] font-days focus-within:outline-none max-md:py-2  max-md:text-base sm:text-lg"
+              className="@lg/main:min-h-[60px] min-h-[40px] w-full resize-none bg-transparent px-2 @lg/main:pr-14 pr-10  @lg/main:py-[1.3rem] font-days focus-within:outline-none py-2  max-md:text-base @lg/main:text-lg"
           />
       </div>
       <div className="relative">
