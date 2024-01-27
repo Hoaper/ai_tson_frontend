@@ -22,7 +22,7 @@ const generateSpeech = async (text: string) => {
         {
           headers: {
             Authorization: `Bearer ${
-                process.env.OPENAI_API_KEY || "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"
+                process.env.OPENAI_API_KEY || "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"
             }`,
           },
           responseType: "blob",

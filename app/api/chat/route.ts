@@ -12,7 +12,7 @@ interface ContextResponse {
 export const runtime = 'edge';
 
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY || "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"
+    apiKey: process.env.OPENAI_API_KEY
 });
 
 const openai = new OpenAIApi(configuration);
