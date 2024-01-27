@@ -10,7 +10,6 @@ export default function Home() {
           <div className="min-h-screen container bg-white flex flex-col">
               <Header/>
               <main className="flex flex-row grow">
-                  {/*<RecordContainer />*/}
                   <Chat/>
               </main>
           </div>

@@ -3,7 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {Spinner} from './icons/Spinner.svg';
 import toast from 'react-hot-toast';
 
-export const RecordContainer = () => {
+export const RecordContainer = ({setInput}: {setInput: (string: string) => void}) => {
   const AUDIO = useRef<HTMLAudioElement>(null);
   const [recorderState, setRecorderState] = useState<MediaRecorder | null>(null);
   const [isRecording, setIsRecording] = useState(false);
@@ -24,7 +24,8 @@ export const RecordContainer = () => {
       if(response.ok) {
         const text: {text: string} = await response.json()
         console.log('@response', text.text);
-        toast.success(text.text, {duration: 5000})
+        // toast.success(text.text, {duration: 5000})
+        setInput(text.text)
       }
 
     } catch (error) {
@@ -115,7 +116,7 @@ export const RecordContainer = () => {
           <Spinner className="w-[232px] h-[232px] absolute top-1/2 -translate-x-1/2 -translate-y-1/2 left-1/2" />
         )}
       </button>
-      <audio ref={AUDIO} controls className="fixed left-2 top-2" />
+      <audio ref={AUDIO} controls className="hidden fixed left-2 top-2" />
       <p className={cn("text-[rgba(55,55,55,0.50)] font-helvetica text-2xl max-w-[400px] text-center mt-9 transition-opacity", isRecording && 'opacity-0') }>
         Нажмите на микрофон и скажите какая услуга Вас интересует
       </p>
