@@ -8,6 +8,8 @@ import { cn } from '@/libs/utils';
 import { MemoizedReactMarkdown } from '@/components/chat/markdown';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import axios from "axios";
+
 
 function extractUrl(text: string) {
   const urlRegex = /\((https?:\/\/[^\s]+)\)/;
@@ -20,6 +22,7 @@ export interface ChatMessageProps {
   message: Message;
 }
 export function ChatMessage({ message, ...props }: ChatMessageProps) {
+
   return (
     <div
       className={cn(

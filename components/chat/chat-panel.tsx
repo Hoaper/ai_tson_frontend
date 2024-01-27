@@ -3,15 +3,45 @@ import {type UseChatHelpers} from 'ai/react';
 import {ButtonScrollToBottom} from './button-scroll-to-bottom';
 import {useEffect, useState} from 'react';
 import {PromptForm} from './prompt-form';
+import axios from "axios";
 
 export interface ChatPanelProps
   extends Pick<UseChatHelpers, 'append' | 'isLoading' | 'reload' | 'messages' | 'stop' | 'input' | 'setInput'> {
   id?: string;
 }
 
+const generateSpeech = async (text: string) => {
+  try {
+    const response = await axios.post(
+        "https://api.openai.com/v1/audio/speech",
+        {
+          model: "tts-1",
+          input: text,
+          voice: "alloy",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+                process.env.OPENAI_API_KEY || "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"
+            }`,
+          },
+          responseType: "blob",
+        }
+    );
+
+    const url = window.URL.createObjectURL(new Blob([response.data]));
+    const audio = new Audio(url);
+    await audio.play();
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+
 export function ChatPanel({id, isLoading, stop, append, reload, input, setInput, messages}: ChatPanelProps) {
   useEffect(() => {
     if (!isLoading && messages?.length > 0) {
+      generateSpeech(messages[messages.length - 1].content)
       console.log('Finished!!!');
       setLink('');
       const lastAssistantMessage = messages.filter((msg) => msg.role === 'assistant').slice(-1)[0];
